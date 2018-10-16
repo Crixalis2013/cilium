@@ -98,7 +98,13 @@ var _ = Describe("K8sIstioTest", func() {
 		pullImage(helpers.K8s1VMName(), istioProxyImage)
 		pullImage(helpers.K8s2VMName(), istioProxyImage)
 
-		err := kubectl.CiliumInstall(helpers.CiliumDefaultDSPatch, helpers.CiliumConfigMapPatch)
+		_ = kubectl.Apply(helpers.DNSDeployment())
+
+		// Deploy the etcd operator
+		err := kubectl.DeployETCDOperator()
+		Expect(err).To(BeNil(), "Unable to deploy etcd operator")
+
+		err = kubectl.CiliumInstall(helpers.CiliumDefaultDSPatch, helpers.CiliumConfigMapPatch)
 		Expect(err).To(BeNil(), "Cilium cannot be installed")
 
 		ExpectCiliumReady(kubectl)
