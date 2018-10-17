@@ -33,7 +33,7 @@ import (
 // - bookinfo-v2-istio.yaml
 // - istio-sidecar-init-policy.yaml
 // Cf. the comments below for each manifest.
-var _ = Describe("K8sIstioTest", func() {
+var _ = FDescribe("K8sIstioTest", func() {
 
 	var (
 		// istioSystemNamespace is the default namespace into which Istio is
